@@ -1,32 +1,22 @@
 import React from 'react';
-import { GET_POKEMON } from '../api';
+import { GET_POKEMONS } from '../api';
 import Card from '../components/Card';
 import Input from '../components/Input';
 
 const Home: React.FC = () => {
-  const [search, setSearch] = React.useState('');
-  const [pokemon, setPokemon] = React.useState<any>(null);
-  const [error, setError] = React.useState('');
+  const [filter, setFilter] = React.useState('');
+  const [list, setList] = React.useState<any>(null);
 
-  async function getPokemon(url: string) {
-    try {
-      const res = await fetch(url);
-      const json = await res.json();
-      setPokemon(json);
-      setError('');
-      console.log(json);
-    } catch (error) {
-      setError(`O Pokemon ${search} não existe`);
-      setPokemon(null);
+  React.useEffect(() => {
+    async function getList() {
+      const json = await (await GET_POKEMONS(100)).results;
+      setList(json.sort());
     }
-  }
+    getList();
+  }, []);
 
   function handleClick(e: React.MouseEvent) {
     e.preventDefault();
-
-    const { url } = GET_POKEMON(search);
-
-    getPokemon(url);
   }
 
   return (
@@ -35,14 +25,20 @@ const Home: React.FC = () => {
         type="text"
         text="Procure seu pokemon preferido!"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setSearch(e.target.value)
+          setFilter(e.target.value)
         }
-        value={search}
+        value={filter}
       />
-      <button onClick={handleClick}>Procurar</button>
-      {error && <p>{error}</p>}
-      {pokemon && <img src={pokemon.sprites[0]} alt={pokemon.name} />}
-      <Card pokemon={pokemon} />
+      <button type="button" onClick={handleClick}>
+        Procurar
+      </button>
+      {list && console.log(list.length)}
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {list &&
+          list.map((pokemon: any, i: number) => (
+            <Card key={pokemon.name} name={pokemon.name} index={i} />
+          ))}
+      </div>
     </div>
   );
 };

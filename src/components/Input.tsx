@@ -9,8 +9,10 @@ interface Props {
 const Input: React.FC<Props> = ({ onChange, text, value, type }) => {
   return (
     <>
-      <label>{text}</label>
-      <input type={type} onChange={onChange} value={value} />
+      <label>
+        {text}
+        <input type={type} onChange={onChange} value={value} />
+      </label>
     </>
   );
 };

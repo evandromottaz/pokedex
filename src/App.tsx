@@ -1,12 +1,21 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 import Footer from './Footer';
 import Header from './Header';
 import HomePage from './pages/Home';
-import './App.css';
+import GlobalStyles from './styles/GlobalStyles';
+
+const theme = {
+  container: {
+    margin: '2rem auto 4rem',
+    width: '95vw',
+  },
+};
 
 function App() {
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
       <Header />
       <BrowserRouter>
         <Routes>
@@ -16,7 +25,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <Footer />
-    </>
+    </ThemeProvider>
   );
 }
 

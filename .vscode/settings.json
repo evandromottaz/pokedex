@@ -9,5 +9,6 @@
     "public": true,
     "yarn.lock":true,
     "README.md":true,
+    "src/global.d.ts":true,
   }
 }
