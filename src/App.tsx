@@ -2,15 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Footer from './Footer';
 import Header from './Header';
-import HomePage from './pages/Home';
-import GlobalStyles from './styles/GlobalStyles';
-
-const theme = {
-  container: {
-    margin: '2rem auto 4rem',
-    width: '95vw',
-  },
-};
+import HomePage from './components/Home';
+import GlobalStyles, { theme } from './styles/GlobalStyles';
 
 function App() {
   return (

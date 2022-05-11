@@ -1,4 +1,5 @@
-import { Container, Logo } from './styles/Header.styled';
+import { Logo } from './styles/Header.styled';
+import { Container } from './styles/GlobalStyles';
 import logo from './assets/logo.png';
 
 const Header = () => {

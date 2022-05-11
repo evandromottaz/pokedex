@@ -4,14 +4,13 @@ interface Props {
   onChange: ChangeEventHandler;
   text: string;
   value: string;
-  type: HTMLInputTypeAttribute;
 }
-const Input: React.FC<Props> = ({ onChange, text, value, type }) => {
+const Input: React.FC<Props> = ({ onChange, text, value }) => {
   return (
     <>
       <label>
         {text}
-        <input type={type} onChange={onChange} value={value} />
+        <input type="text" onChange={onChange} value={value} />
       </label>
     </>
   );

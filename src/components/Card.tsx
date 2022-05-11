@@ -1,54 +1,53 @@
-import React from 'react';
+import PokeAPI from 'pokeapi-typescript';
+import { useState, useEffect } from 'react';
 import { GET_POKEMON } from '../api';
-import { Container } from '../styles/Card.styled';
+import { Container, Image, Title } from '../styles/Card.styled';
+import { IList } from './Pokedex';
 
-type typeProps = {
-  [types: string]: string;
+const pokemonTypes: object = {
+  grass: 'green',
+  fire: 'red',
+  water: '#d4f1f9',
+  bug: 'gray',
+  normal: '#fff',
+  poison: 'darkgreen',
+  electric: 'yellow',
+  ground: 'darkbrown',
+  fairy: 'lightblue',
+  fighting: 'darkred',
+  psychic: 'purple',
+  rock: 'brown',
+  ghost: 'black',
 };
 
-const Card = ({ name, index }: any) => {
-  const [pokemon, setPokemon] = React.useState<any>(null);
-  const [bgCard, setBgCard] = React.useState<any>('');
+interface IPokemon {
+  name: string;
+  sprites: { front_default: string };
+  types: Array<{ type: { name: string } }>;
+}
 
-  function backgroundType(type: string) {
-    const types: typeProps = {
-      grass: 'green',
-      fire: 'red',
-      water: '#d4f1f9',
-      bug: 'gray',
-      normal: '#fff',
-      poison: 'darkgreen',
-      electric: 'yellow',
-      ground: 'darkbrown',
-      fairy: 'lightblue',
-      fighting: 'darkred',
-      psychic: 'purple',
-      rock: 'brown',
-      ghost: 'black',
-    };
-    if (type) {
-      if (types[type]) return types[type];
+type PokeName = {
+  name: string;
+};
+
+const Card: React.FC<PokeName> = ({ name }) => {
+  const [pokemon, setPokemon] = useState<IPokemon | unknown>(null);
+
+  useEffect(() => {
+    async function oijenib() {
+      const pokemon = await PokeAPI.Pokemon.fetch(name);
+      console.log(typeof pokemon);
+      // const { sprites, types } = await PokeAPI.Pokemon.fetch(name);
+
+      pokemon && setPokemon(pokemon);
     }
-  }
-
-  React.useEffect(() => {
-    async function getPokemon() {
-      const json = await GET_POKEMON(name);
-      setPokemon(json.sprites.front_default);
-
-      const typePokemon = json.types[0].type.name;
-      const bgPokemon = backgroundType(typePokemon);
-      setBgCard(bgPokemon);
-    }
-    getPokemon();
-  }, []);
+    oijenib();
+  }, [name]);
 
   return (
-    <Container backG={bgCard && bgCard}>
-      <div>
-        <img src={pokemon && pokemon} alt={name} />
-      </div>
-      <h2>{name}</h2>
+    <Container>
+      {/* <img src={pokemon.} alt={pokemon} /> */}
+      <Title>{name}</Title>
     </Container>
   );
 };
